@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block title_head %} Buscar Producto {% endblock title_head %}
+{% block titulo %} Estoy en la pagina para Buscar producto{% endblock titulo %}
+{% block section %} 
+<form action="{% url "inicio:buscar_producto" %}">
+
+    {{form}}
+    <input type="submit", value="Buscar">
+
+    {% if producto %}
+    <ul>
+        {% for producto in productos %}
+        <li>{{producto}} |<a href="{% url "ver_producto" producto.id %}">Ver mas</a>|</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No hay productos registrados</p>
+    {% endif %}
+
+</form> 
+
+{% endblock section %}
