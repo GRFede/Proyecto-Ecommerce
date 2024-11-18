@@ -24,31 +24,37 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href={% url "inicio:inicio" %}>Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Nosotros</a></li>
-                        <li class="nav-item"><a class="nav-link" href={% url "inicio:cargar_producto" %}>Cargar Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href={% url "productos:CargarProducto" %}>Cargar Productos</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#!">Todos los productos</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href={% url "inicio:buscar_producto" %}>Buscar productos</a></li>
+                                <li><a class="dropdown-item" href={% url "productos:VerProducto" %}>Buscar productos</a></li>
                                 <li><a class="dropdown-item" href="#!">Hogar</a></li>
                                 <li><a class="dropdown-item" href="#!">Construccion</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            Inicio Sesion
-                        </button>
-                        <a class="btn btn-outline-dark" href={% url "inicio:crear_usuario" %}>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        {% if request.user.is_authenticated %}
+                        <a class="navbar-brand" href="#">{{request.user.username}}</a>
+                        <form action={% url "usuarios:logout" %} method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-secondary" value="Cerrar Sesion">
+                        </form>
+                        {% else %}
+                        <a class="btn btn-primary" href={% url "usuarios:login" %}>Inicio Sesion</a>
+                        {% endif %}
+                        <a class="btn btn-info" href={% url "inicio:crear_usuario" %}>
                             Registrarse
                         </a>
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Carrito
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
+                        </button>   
+                    </ul>
                 </div>
             </div>
         </nav>
