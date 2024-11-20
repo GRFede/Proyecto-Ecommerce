@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block title_head %} Ver Producto {% endblock title_head %}
+{% block titulo %} Estoy en la pagina para ver producto{% endblock titulo %}
+{% block section %} 
+<p>Este producto es el que seleccionó para tener mas información.</p>
+<a class="btn btn-secondary" href={% url "productos:VerProducto" %}>Ver todos los productos</a></div>
+{% if productos %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">    
+        <div class="col mb-5">
+            <div class="card h-100">
+                <!-- Product image-->
+                <img class="card-img-top" src={{productos.imagen_producto.url}} alt="..." />
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">{{productos.nombres_producto}}</h5>
+                        <!-- Product price-->
+                        ${{productos.precio}}
+                    </div>
+                </div>
+                <!-- Product actions-->
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><p>{{productos.descripcion_extendida_producto}}</p></div>
+                    <div class="text-center"><a class="btn btn-secondary" href="#!">Comprar Producto</a></div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+</section>
+            
+{% else %}
+<p>No hay productos registrados</p>
+{% endif %}
+            
+{% endblock section %}

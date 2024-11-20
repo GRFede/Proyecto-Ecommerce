@@ -1,35 +1,52 @@
 from django.shortcuts import render,redirect
 from productos.models import Productos
 from productos.form import CrearProducto, BuscarProducto
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
-# Create your views here.
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class CargarProducto(CreateView):
+class CargarProducto(LoginRequiredMixin, CreateView):
     model=Productos
     template_name = "cargar.html"
     success_url = reverse_lazy('productos:VerProducto')
-    fields = ['nombres_producto','descripcion_breve_producto','descripcion_extendida_producto','precio','imagen_producto','categoria_producto']
+    fields = ['nombres_producto',
+            'descripcion_breve_producto',
+            'descripcion_extendida_producto',
+            'precio',
+            'imagen_producto',
+            'categoria_producto',
+            ]
 
 class VerProducto(ListView):
     model=Productos
     template_name = "ver.html"
     context_object_name = 'productos'
 
-def cargar(request):
-            formulario = CrearProducto()
+class VerProductoExtendido(DetailView):
+    model=Productos
+    template_name = "ver_extendido.html"
 
-            if request.method == 'POST':
-                
-                formulario = CrearProducto(request.POST, request.FILES)
-                if formulario.is_valid():
-                    data=formulario.cleaned_data
-                    producto=Productos(nombres_producto=data.get('nombres producto'),descripcion_breve_producto=data.get('descripcion breve producto'),descripcion_extendida_producto=data.get(' descripcion extendida producto'),precio=data.get('precio'),imagen_producto=data.get('imagen producto'),categoria_producto=data.get('categoria producto'))
-                    producto.save()
-                    return redirect('productos:buscar')
+class EliminarProducto(LoginRequiredMixin, DeleteView):
+    model=Productos
+    template_name = "eliminar.html"
+    success_url=reverse_lazy('productos:VerProducto')
 
-            return render(request, 'cargar.html', {'form':formulario})
+
+
+class EditarProducto(LoginRequiredMixin, UpdateView):
+    model=Productos
+    template_name = "editar.html"
+    success_url = reverse_lazy('productos:VerProducto')
+    fields = ['nombres_producto',
+            'descripcion_breve_producto',
+            'descripcion_extendida_producto',
+            'precio',
+            'imagen_producto',
+            'categoria_producto',
+            ]
+    
 
 def buscar(request):
 
@@ -42,12 +59,3 @@ def buscar(request):
         producto=Productos.objects.all()  
 
     return render(request, 'buscar.html', {'producto' : producto, 'form': formulario})
-
-def ver(request,id):
-    producto=Productos.objects.get(id=id)
-    return(request, 'ver.html', {'producto':producto})
-
-def borrar(request):
-    return 
-def editar(request):
-    return

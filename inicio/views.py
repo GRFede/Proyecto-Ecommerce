@@ -16,7 +16,10 @@ def crear_usuario(request):
             data=formulario.cleaned_data
             persona=Personas(nombres=data.get('nombres'),apellidos=data.get('apellidos'),edad=data.get('edad'),foto=data.get('imagen'))
             persona.save()
-            return redirect('inicio:inicio')
+            return redirect('usuarios:login')
 
     return render(request, 'crear_usuario.html', {'form':formulario})
 
+def about(request):
+
+    return render(request, 'about.html', {})

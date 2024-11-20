@@ -1,0 +1,11 @@
+
+{% extends "index.html" %}
+
+{% block title_head %} aviso {% endblock title_head %}
+
+{% block titulo %} Para poder realizar compras, editar o eliminar cualquier producto, tiene que iniciar sesion. En el caso de no tener sesion, ir a registrarse. {% endblock titulo %}
+
+{% block section %} 
+<p>Para seguir viendo los productos presione el boton:</p>
+<a class="btn btn-secondary" href={% url "productos:VerProducto" %}>Ver Descripción Producto</a>
+{% endblock section %}

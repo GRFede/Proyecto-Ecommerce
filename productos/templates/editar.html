@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{% block title_head %} Editar Producto {% endblock title_head %}
+{% block titulo %} Estoy en la pagina para Editar Productos{% endblock titulo %}
+{% block section %}
+<a class="btn btn-secondary" href={% url "productos:VerProducto" %}>Ver todos los productos</a>
+<form action={% url "productos:EditarProducto" productos.id %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{form}}
+
+    <input type="submit" value="Editar">
+</form> 
+
+{% endblock section %}

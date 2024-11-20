@@ -3,40 +3,40 @@
 {% block title_head %} Ver Producto {% endblock title_head %}
 {% block titulo %} Estoy en la pagina para ver producto{% endblock titulo %}
 {% block section %} 
-
-<a href="{% url "productos:CargarProducto" %}">Cargar nuevo producto</a>
+<p>Aqui puede ver una pequeña descripcion de los productos que tenemos en nuestro catalogos.</p>
+<a class="btn btn-secondary" href={% url "productos:CargarProducto" %}>Cargar nuevo producto</a>
 {% if productos %}
-    <ul>
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         {% for producto in productos %}
-        <li>
-            <section class="py-5">
-                <div class="container px-4 px-lg-5 mt-5">
-                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <!-- Product image-->
-                                <img class="card-img-top" src={{producto.imagen_producto.url}} alt="..." />
-                                <!-- Product details-->
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <h5 class="fw-bolder">{{producto.nombres_producto}}</h5>
-                                        <!-- Product price-->
-                                        ${{producto.precio}}
-                                    </div>
-                                </div>
-                                <!-- Product actions-->
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><p>{{producto.descripcion_extendida_producto}}</p></div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="col mb-5">
+            <div class="card h-100">
+                <!-- Product image-->
+                <img class="card-img-top" src={{producto.imagen_producto.url}} alt="..." />
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">{{producto.nombres_producto}}</h5>
+                        <!-- Product price-->
+                        ${{producto.precio}}
                     </div>
                 </div>
-            </section>
-        </li>
+                <!-- Product actions-->
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><p>{{producto.descripcion_breve_producto}}</p></div>
+                    <div class="text-center"><a class="btn btn-secondary" href={% url "productos:VerProductoExtendido" producto.id %}>Ver Descripción Producto</a></div>
+                    <div class="text-center"><a class="btn btn-secondary" href={% url "productos:EditarProducto" producto.id  %}>Editar Producto</a></div>
+                    <div class="text-center"><a class="btn btn-secondary" href={% url "productos:EliminarProducto" producto.id %}>Eliminar Producto</a></div>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+        </div>
+    </div>
+</section>
+            
 {% else %}
 <p>No hay productos registrados</p>
 {% endif %}

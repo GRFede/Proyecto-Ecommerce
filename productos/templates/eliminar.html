@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block title_head %} Ver Producto {% endblock title_head %}
+{% block titulo %} Estoy en la pagina para ver producto{% endblock titulo %}
+{% block section %} 
+<a class="btn btn-secondary" href={% url "productos:CargarProducto" %}>Cargar nuevo producto</a>
+<a class="btn btn-secondary" href={% url "productos:VerProducto" %}>Ver todos los productos</a>
+<a class="btn btn-secondary" href={% url "inicio:inicio" %}>Inicio</a>
+<form action="{% url "productos:EliminarProducto" productos.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <p>Desea Eliminar la platea{{productos.nombres_producto}}?</p>
+
+    <input type="submit" value="Confirmar">
+</form> 
+{% endblock section %}

@@ -12,6 +12,6 @@ class Productos(models.Model):
 
 
     def __str__(self):
-        return f'{self.nombres_producto}{self.descripcion_breve_producto}{self.descripcion_extendida_producto}{self.precio}{self.imagen_producto}{self.categoria_producto}'
+        return f'{self.id}{self.nombres_producto}{self.descripcion_breve_producto}{self.descripcion_extendida_producto}{self.precio}{self.imagen_producto}{self.categoria_producto}'
 
 
