@@ -6,6 +6,14 @@
 {% block titulo %} Para poder realizar compras, editar o eliminar cualquier producto, tiene que iniciar sesion. En el caso de no tener sesion, ir a registrarse. {% endblock titulo %}
 
 {% block section %} 
+<form action={% url "usuarios:login" %} method="POST">
+    {% csrf_token %}
+
+    {{form}}
+    
+    <input type="submit" class="btn btn-primary" value="Iniciar sesion">
+
+</form>
 <p>Para seguir viendo los productos presione el boton:</p>
 <a class="btn btn-secondary" href={% url "productos:VerProducto" %}>Ver Descripción Producto</a>
 {% endblock section %}
