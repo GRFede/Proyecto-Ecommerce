@@ -2,7 +2,7 @@
 
 {% block title_head %} Ver Producto {% endblock title_head %}
 {% block titulo %} Estoy en la pagina para ver producto{% endblock titulo %}
-{% block section %} 
+{% block section %}
 <p>Aqui puede ver una pequeña descripcion de los productos que tenemos en nuestro catalogos.</p>
 <a class="btn btn-secondary" href={% url "productos:CargarProducto" %}>Cargar nuevo producto</a>
 {% if productos %}

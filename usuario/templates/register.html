@@ -4,7 +4,7 @@
 {% block title_head %} Crear Usuario {% endblock title_head %}
 {% block titulo %} Estoy en la pagina para crear un usuario{% endblock titulo %}
 {% block section %} 
-<form style=" width: 50vw; margin-left : 15vw;" action={% url "usuarios:register" %} method="POST">
+<form style=" width: 50vw; margin-left : 15vw;" action={% url "usuarios:register" %} method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     {{form}}

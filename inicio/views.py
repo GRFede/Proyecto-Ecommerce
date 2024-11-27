@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from inicio.models import Personas
-from inicio.form import CrearUsuario
+from inicio.form import CrearNuevoUsuario
 
 
 

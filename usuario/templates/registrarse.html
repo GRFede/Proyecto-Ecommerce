@@ -1,12 +1,12 @@
 
 {% extends "index.html" %}
 
-{% block title_head %} aviso {% endblock title_head %}
+{% block title_head %} inicio de sesion {% endblock title_head %}
 
 {% block titulo %} Para poder realizar compras, editar o eliminar cualquier producto, tiene que iniciar sesion. En el caso de no tener sesion, ir a registrarse. {% endblock titulo %}
 
 {% block section %} 
-<form action={% url "usuarios:login" %} method="POST">
+<form action={% url "usuarios:registrarse" %} method="POST">
     {% csrf_token %}
 
     {{form}}

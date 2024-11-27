@@ -1,39 +1,23 @@
 from django.shortcuts import render,redirect
-from django.views.generic.edit import UpdateView
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import authenticate, login as django_login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
 from django.urls import reverse_lazy
-from usuario.form import CrearUsuario,FormularioEdicion,FormularioCambioPassword
+from usuario.form import Usuario,FormularioEdicion,FormularioCambioPassword
 from django.contrib.auth.views import PasswordChangeView
+from usuario.models import Info
 
 
 
-def login(request):
-
-    formulario = AuthenticationForm()
-    if request.method == 'POST':
-        formulario = AuthenticationForm(request, data=request.POST)
-        if formulario.is_valid():
-            nombre_de_usuario=formulario.cleaned_data.get('username')
-            contrasenia=formulario.cleaned_data.get('password')
-
-            usuario=authenticate(username=nombre_de_usuario, password=contrasenia)
-
-            django_login(request, usuario)
-
-            return redirect('inicio:inicio')
-
-    return render(request, 'login.html', {'form': formulario})
 
 def register(request):
-    formulario = CrearUsuario()
+    formulario = Usuario()
     if request.method == 'POST':
-        formulario = CrearUsuario(request.POST)
+        formulario = Usuario(request.POST)
         if formulario.is_valid():
 
             formulario.save()
 
-            return redirect('usuarios:login')
+            return redirect('usuarios:registrarse')
 
     return render(request, 'register.html', {'form': formulario})
 
@@ -44,24 +28,39 @@ def loginn(request):
     if request.method == 'POST':
         formulario = AuthenticationForm(request, data=request.POST)
         if formulario.is_valid():
-            nombre_de_usuario=formulario.cleaned_data.get('username')
-            contrasenia=formulario.cleaned_data.get('password')
 
-            usuario=authenticate(username=nombre_de_usuario, password=contrasenia)
+            usuario=formulario.get_user()
 
-            django_login(request, usuario)
+            login(request, usuario)
 
-            return redirect('productos:ver')
+            Info.objects.get_or_create(user=usuario)
+
+            return redirect('inicio:inicio')
 
     return render(request, 'registrarse.html', {'form': formulario})
 
-class UsuarioEdicion(UpdateView):
-    form_class = FormularioEdicion
-    template_name= 'perfil.html'
-    success_url = reverse_lazy('inicio:inicio')
+def editar_perfil(request):
+    
+    info = request.user.info
 
-    def get_object(self):
-        return self.request.user
+    formulario = FormularioEdicion(instance=request.user, initial = {'avatar': info.avatar})
+
+    if request.method == 'POST':
+
+        formulario = FormularioEdicion(request.POST,request.FILES, instance=request.user)
+
+        if formulario.is_valid():
+
+            info.avatar = formulario.cleaned_data.get('avatar') if formulario.cleaned_data.get('avatar') else info.avatar
+            info.save()
+
+            formulario.save()
+
+            return redirect('inicio:inicio')
+
+    return render(request, 'perfil.html', {'form': formulario})
+
+
     
 class CambioPassword(PasswordChangeView):
     form_class = FormularioCambioPassword

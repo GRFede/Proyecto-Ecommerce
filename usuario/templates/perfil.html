@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
-{% block title_head %} inicio de sesion {% endblock title_head %}
-{% block titulo %} Estoy iniciaindo sesion{% endblock titulo %}
+{% block title_head %} Editar Perfil {% endblock title_head %}
+{% block titulo %} Pagina para edicion del perfil{% endblock titulo %}
 {% block section %} 
 
 <div class="container text-center">
@@ -10,10 +10,11 @@
 
 <div class="container">
 
-<form id="login-form" style=" width: 50vw; margin-left : 20vw;" method="post" enctype="multipart/form-data">
+<form style=" width: 50vw; margin-left : 20vw;" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+
     {{ form }}
-    <br>
+
     <div class="container text-center">
     <button type="submit" class="btn btn-primary text-center">Guardar</button>
     </div>

@@ -7,6 +7,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
 class CargarProducto(LoginRequiredMixin, CreateView):
     model=Productos
     template_name = "cargar.html"
@@ -18,6 +19,13 @@ class CargarProducto(LoginRequiredMixin, CreateView):
             'imagen_producto',
             'categoria_producto',
             ]
+
+def buscar(request):
+    formulario = BuscarProducto(request.GET)
+    if formulario.is_valid():
+        producto=Productos.objects.filter(nombres_producto__icontains=formulario.cleaned_data.get('nombres_producto', ''))
+    
+    return render(request, 'buscar.html', {'form': formulario,'productos' : producto,})
 
 class VerProducto(ListView):
     model=Productos
@@ -47,15 +55,3 @@ class EditarProducto(LoginRequiredMixin, UpdateView):
             'categoria_producto',
             ]
     
-
-def buscar(request):
-
-    formulario = BuscarProducto(request.GET)
-    if formulario.is_valid():
-        nombres_producto=formulario.cleaned_data.get('nombre_producto')
-
-        producto=Productos.objects.filter()
-    else:
-        producto=Productos.objects.all()  
-
-    return render(request, 'buscar.html', {'producto' : producto, 'form': formulario})
